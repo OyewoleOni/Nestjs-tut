@@ -1,5 +1,6 @@
-import { Controller, Get, NotFoundException, Param, ParseIntPipe, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { CreateCustomerDto } from 'src/customers/dtos/create-customer.dto';
 import { CustomersService } from 'src/customers/services/customers/customers.service';
 
 @Controller('customers')
@@ -8,7 +9,7 @@ export class CustomersController {
     constructor(private readonly customerService: CustomersService){}
 
     @Get()
-    getCustomers(){
+    getAllCustomers(){
         return this.customerService.getCustomers();
     }
 
@@ -33,4 +34,8 @@ export class CustomersController {
         return customer;
     }
 
+    @Post('')
+    createCustomer(@Body() createCustomerDto: CreateCustomerDto){
+        this.customerService.createCustomer(createCustomerDto);
+    }
 }
