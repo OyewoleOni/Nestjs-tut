@@ -1,5 +1,6 @@
-import { ClassSerializerInterceptor, Controller, Get, NotFoundException, Param, ParseIntPipe, UseInterceptors } from '@nestjs/common';
+import { ClassSerializerInterceptor, Controller, Get, NotFoundException, Param, ParseIntPipe, UseFilters, UseInterceptors } from '@nestjs/common';
 import { UserNotFoundException } from 'src/users/exceptions/UserNotFound.exception';
+import { HttpExceptionFilter } from 'src/users/filters/HttpException.fiter';
 import { UsersService } from 'src/users/services/users/users.service';
 import { SerializedUser } from 'src/users/types';
 
@@ -22,6 +23,7 @@ export class UsersController {
     }
 
     @UseInterceptors(ClassSerializerInterceptor)
+    @UseFilters(HttpExceptionFilter)
     @Get('/id/:id')
     getById(@Param('id', ParseIntPipe) id: number){
         const user = this.usersService.getUserById(id);
