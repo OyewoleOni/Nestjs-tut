@@ -1,6 +1,5 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Post, Get, Session, UseGuards } from '@nestjs/common';
 import { Request } from '@nestjs/common';
-import { UseGuards } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
 
 
@@ -12,5 +11,11 @@ export class AuthController {
     async login(@Request() req){
         
     }
-
+    @Get('')
+    async getAuthSession(@Session() session: Record<string, any>){
+        console.log(session);
+        console.log(session.id);
+        session.authenticated = true;
+        return session;
+    }
 }
